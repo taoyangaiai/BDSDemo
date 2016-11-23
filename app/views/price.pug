@@ -1,0 +1,63 @@
+extend layout
+block content
+	a(href='/') 首页
+	.container
+		h1 #{title}
+		.row
+			table#btctbtable.table-hover.table-bordered.text-center
+				thead
+					tr
+						th.col-md-1.text-center 序号
+						th.col-md-2.text-center 市场
+						th.col-md-2.text-center 最新成交价
+						th.col-md-2.text-center 卖一
+						th.col-md-2.text-center 买一
+						th.col-md-3.text-center 24小时成交总量
+				tbody
+					tr#okcoinBtc
+						td 1
+						td OKCOIN
+						td
+						td
+						td
+						td
+					tr#huobiBtc
+						td 2
+						td 火币
+						td
+						td
+						td
+						td
+					tr#btccBtc
+						td 3
+						td 比特币中国
+						td
+						td
+						td
+						td
+					tr#chbtcBtc
+						td 4
+						td 中国比特币
+						td
+						td
+						td
+						td
+	hr
+	.container
+		.row
+			p OK账户信息
+			table.table
+				tr#userInfo
+					td 可用
+					td.cny
+					td.btc
+					td.ltc
+					td 冻结
+					td.cny
+					td.btc
+					td.ltc
+
+
+
+	script(src='/js/price.js')
+
