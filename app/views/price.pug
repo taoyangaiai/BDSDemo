@@ -61,53 +61,104 @@ block content
 		.row
 			p OK 交易
 			.col-md-5
-				table#trade_price.table.table-striped.table-hover.text-center
-					tr
+				table#trade_price.table.table-hover.text-center
+					tr.active
 						td <strong>买卖</strong>
 						td <strong>价格(￥)</strong>
 						td <strong>委托单(btc)</strong>
-					tr.text-danger
+					tr#sell-5.text-danger
 						td 卖(5)
 						td 
 						td
-					tr.text-danger
+					tr#sell-4.text-danger
 						td 卖(4)
 						td
 						td
-					tr.text-danger
+					tr#sell-3.text-danger
 						td 卖(3)
 						td
 						td
-					tr.text-danger
+					tr#sell-2.text-danger
 						td 卖(2)
 						td
 						td
-					tr.text-danger
+					tr#sell-1.text-danger
 						td 卖(1)
 						td
 						td
-					tr.text-success
+					tr#buy-1.text-success
 						td 买(1)
 						td
 						td
-					tr.text-success
+					tr#buy-2.text-success
 						td 买(2)
 						td
 						td
-					tr.text-success
+					tr#buy-3.text-success
 						td 买(3)
 						td
 						td
-					tr.text-success
+					tr#buy-4.text-success
 						td 买(4)
 						td
 						td
-					tr.text-success
+					tr#buy-5.text-success
 						td 买(5)
 						td
 						td
+					tr.danger
+						td 合并深度
+						td(colspan='2')
+							div.btn-group(data-toggle="buttons")
+								label#option1.btn.btn-primary.active 0.01
+									input(type='radio',name='options',autocomplete='off',checked='checked')
+								label#option2.btn.btn-primary.active 0.1
+									input(type='radio',name='options',autocomplete='off') 
+								label#option3.btn.btn-primary.active 1
+									input(type='radio',name='options',autocomplete='off') 
 			.col-md-7
-				p 222
+				.panel.panel-default
+					.panel-heading
+						h3.panel-title 买入/卖出
+					table.table
+						th 价格
+						th 数量
+						th 金额
+						tr
+							td
+								input(type='text',name='price')
+								span &nbsp;&nbsp;&nbsp;&nbsp;✖️
+							td
+								input(type='text',name='amount')
+								span &nbsp;&nbsp;&nbsp;&nbsp;＝
+							td 
+								input(type='text',name='total')
+						tr
+							td(colspan='3')
+								button#buyBtn.btn.btn-primary 买入
+						tr
+							td(colspan='3')
+								button#sellBtn.btn.btn-primary 卖出
+				.panel.panel-default
+					.panel-heading
+						h3.panel-title 未成交记录
+					table#nodealTab.table
+						tr.active
+							td 委托时间
+							td 委托类别
+							td 委托数量
+							td 委托价格
+							td 成交数量
+							td 平均成交价
+							td 尚未成交
+							td 操作
+
+
+
+
+
+
+
 
 
 

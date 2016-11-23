@@ -86,20 +86,10 @@ OKBTC.prototype.getUserInfo = function(){
 	
 }
 
-OKBTC.prototype.queryDepth = function(){
+OKBTC.prototype.queryDepth = function(depth){
 	return new Promise(function(resolve,reject){
-		var url = api.price.depth+'?symbol=btc_cny&size=5&merge=1'
-		//symbol
-		// btc_cny:比特币 ltc_cny :莱特币
-		// size
-		// value: 1-200
-		// merge
-		// value: 1 （合并深度）
-		var options = {
-			symbol:'btc_cny',
-			size:10,
-			merge:1
-		}
+		var url = api.price.depth+'?symbol=btc_cny&size=5&merge='+depth
+	
 		request({method:'GET',url:url,json:true}).then(function(res){
 			var _data = res.body
 			if(_data){
@@ -115,13 +105,31 @@ OKBTC.prototype.queryDepth = function(){
 
 
 OKBTC.prototype.buy = function(opt){
-	var message = {}
-	try{
-		return OKBtc.trade(opt)
-	}catch(e){
-		message = e
-	}
+	return new Promise(function(resolve,reject){
+		OKBtc.trade(opt)
+			 .then(function(data){
+			 	if(data){
+			 		console.log('service data = '+data)
+			 		resolve(data)
+			 	}
+			 }).catch(function(err){
+			 	reject(err)
+			 })
+	})
 	
+}
+
+OKBTC.prototype.watch = function(opt){
+	return new Promise(function(resolve,reject){
+		OKBtc.watch(opt)
+			 .then(function(data){
+			 	if(data){
+			 		resolve(data)
+			 	}
+			 }).catch(function(err){
+			 	reject(err)
+			 })
+	})
 }
 
 module.exports = OKBTC

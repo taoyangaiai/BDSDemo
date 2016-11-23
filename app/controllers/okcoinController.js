@@ -36,9 +36,9 @@ router.get('/queryBtc', function (req, res, next) {
 });
 
 router.get('/queryBtcDepth', function (req, res, next) {
-    okapi.queryDepth()
+    var depth = req.query.depth
+    okapi.queryDepth(depth)
          .then(function(data){
-            console.log('depth='+JSON.stringify(data))
             res.json(data)
          }).catch(function(err){
             res.json(formatError(err))
@@ -53,10 +53,18 @@ router.get('/buyBtc', function (req, res, next) {
     var options = {
       symbol:'btc_cny',
       type:'buy',
-      price:'680',
+      price:'10',
       amount:'0.01'
     }
-    okapi.buy()
+    okapi.buy(options)
+         .then(function(order_id){
+            options.order_id = order_id
+            return okapi.watch(options)
+         })
+         .then(function(data){
+            console.log('order_info=='+data)
+            res.json(data)
+         })
 
 });
 
