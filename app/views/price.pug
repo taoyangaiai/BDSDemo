@@ -45,7 +45,7 @@ block content
 	hr
 	.container
 		.row
-			p OK账户信息
+			p.userInfoError OK账户信息
 			table.table
 				tr#userInfo
 					td 可用
@@ -56,6 +56,58 @@ block content
 					td.cny
 					td.btc
 					td.ltc
+	hr
+	.container
+		.row
+			p OK 交易
+			.col-md-5
+				table#trade_price.table.table-striped.table-hover.text-center
+					tr
+						td <strong>买卖</strong>
+						td <strong>价格(￥)</strong>
+						td <strong>委托单(btc)</strong>
+					tr.text-danger
+						td 卖(5)
+						td 
+						td
+					tr.text-danger
+						td 卖(4)
+						td
+						td
+					tr.text-danger
+						td 卖(3)
+						td
+						td
+					tr.text-danger
+						td 卖(2)
+						td
+						td
+					tr.text-danger
+						td 卖(1)
+						td
+						td
+					tr.text-success
+						td 买(1)
+						td
+						td
+					tr.text-success
+						td 买(2)
+						td
+						td
+					tr.text-success
+						td 买(3)
+						td
+						td
+					tr.text-success
+						td 买(4)
+						td
+						td
+					tr.text-success
+						td 买(5)
+						td
+						td
+			.col-md-7
+				p 222
 
 
 

@@ -5,7 +5,8 @@ var OKBtc 			= require('../../lib/util/OKBtc')
 var prefix = 'https://www.okcoin.cn/api/v1/'
 var api = {
 		price:{
-			btc : prefix+'ticker.do?symbol=btc_cny'
+			btc : prefix+'ticker.do?symbol=btc_cny',
+			depth:prefix+'depth.do'
 		},
 		trade:{
 
@@ -13,6 +14,7 @@ var api = {
 		user:{
 			info:'/userinfo.do'
 		}
+
 }
 
 function OKBTC(){
@@ -39,7 +41,7 @@ OKBTC.prototype.fetchPrice = function(){
 
 
 
-
+//验证当前价格
 OKBTC.prototype.isValidPrice = function(data){
 	if(!data || !data.date ||!data.ticker){
 		return false
@@ -55,7 +57,7 @@ OKBTC.prototype.isValidPrice = function(data){
 
 
 
-
+//查询最新价格
 OKBTC.prototype.queryPrice = function(){
 	return new Promise(function(resolve,reject){
 		var url = api.price.btc
@@ -64,22 +66,51 @@ OKBTC.prototype.queryPrice = function(){
 			if(_data){
 				 resolve(_data)
 			}else{
-				throw new Error('get'+marketName+'\'s'+coin+' fails')
+				throw new Error('get okcoin btc price fails')
 			}
 		}).catch(function(err){
 			reject(err)
 		})
 	})
 }
-
+//获取用户信息
 OKBTC.prototype.getUserInfo = function(){
 	return new Promise(function(resolve,reject){
-		OKBtc.getUserInfo()
-			 .then(function(data){
-			 	resolve(data)
-			 })
+			OKBtc.getUserInfo()
+				 .then(function(data){
+				 	resolve(data)
+				 }).catch(function(err){
+				 	reject(err)
+				 })
 	})
 	
+}
+
+OKBTC.prototype.queryDepth = function(){
+	return new Promise(function(resolve,reject){
+		var url = api.price.depth+'?symbol=btc_cny&size=5&merge=1'
+		//symbol
+		// btc_cny:比特币 ltc_cny :莱特币
+		// size
+		// value: 1-200
+		// merge
+		// value: 1 （合并深度）
+		var options = {
+			symbol:'btc_cny',
+			size:10,
+			merge:1
+		}
+		request({method:'GET',url:url,json:true}).then(function(res){
+			var _data = res.body
+			if(_data){
+				resolve(_data)
+			}else{
+				throw new Error('get okcoin btc depth fails')
+			}
+		}).catch(function(err){
+			reject(err)
+		})
+	})
 }
 
 

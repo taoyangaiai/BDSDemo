@@ -21,17 +21,22 @@ function query(){
 		var data = FormatData(_data)
 		InsertData('btccBtc',data)
 	})
+	$.get('okcoin/queryBtcDepth',function(_data){
+		console.log(_data)
+	})
 
 	$.get('okcoin/getUserInfo',function(_data){
-		console.log(JSON.stringify(_data))
-		// {"funds":{"asset":{"net":"7.81","total":"7.81"},"free":{"btc":"0","cny":"7.8038","ltc":"0"}
-		// ,"freezed":{"btc":"0","cny":"0.009","ltc":"0"}}}
-		$('#userInfo td:eq(1)').text('CNY:'+_data.funds.free.cny)
-		$('#userInfo td:eq(2)').text('BTC:'+_data.funds.free.btc)
-		$('#userInfo td:eq(3)').text('LTC:'+_data.funds.free.ltc)
-		$('#userInfo td:eq(5)').text('CNY:'+_data.funds.freezed.cny)
-		$('#userInfo td:eq(6)').text('BTC:'+_data.funds.freezed.btc)
-		$('#userInfo td:eq(7)').text('LTC:'+_data.funds.freezed.ltc)
+		if(_data.result){
+			$('#userInfo').remove()
+			$('.userInfoError').text('获取用户信息出错:'+_data.message)
+		}else{
+			$('#userInfo td:eq(1)').text('CNY:'+_data.funds.free.cny)
+			$('#userInfo td:eq(2)').text('BTC:'+_data.funds.free.btc)
+			$('#userInfo td:eq(3)').text('LTC:'+_data.funds.free.ltc)
+			$('#userInfo td:eq(5)').text('CNY:'+_data.funds.freezed.cny)
+			$('#userInfo td:eq(6)').text('BTC:'+_data.funds.freezed.btc)
+			$('#userInfo td:eq(7)').text('LTC:'+_data.funds.freezed.ltc)
+		}
 	})
 
 }

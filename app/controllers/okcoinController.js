@@ -17,19 +17,12 @@ router.get('/', function (req, res, next) {
 });
 
 router.get('/getUserInfo', function (req, res, next) {
-   try{
       okapi.getUserInfo()
            .then(function(data){
-            console.log('data='+JSON.stringify(data))
             res.json(data)
+           }).catch(function(err){
+              res.json(formatError(err))
            })
-    }catch(e){
-      var err = {
-        result:false,
-        message:e
-      }
-      res.json(err)
-    }
 });
 
 
@@ -41,6 +34,20 @@ router.get('/queryBtc', function (req, res, next) {
          })
 
 });
+
+router.get('/queryBtcDepth', function (req, res, next) {
+    okapi.queryDepth()
+         .then(function(data){
+            console.log('depth='+JSON.stringify(data))
+            res.json(data)
+         }).catch(function(err){
+            res.json(formatError(err))
+         })
+
+});
+
+
+
 
 router.get('/buyBtc', function (req, res, next) {
     var options = {
@@ -63,3 +70,12 @@ router.get('/queryLtc', function (req, res, next) {
                 res.json(data.ticker)
           })
 });
+
+
+function formatError(err){
+  var error = {
+    result :'1',
+    message:err.message
+  }
+  return error
+}
