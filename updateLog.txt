@@ -1,4 +1,0 @@
-2016.11.22
-1.增加OK,BTCC,CHBTC,HUOBI行情监控
-2.OK账户信息查询展示
-3.创建分支James_Tao
