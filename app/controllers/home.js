@@ -13,6 +13,7 @@ router.get('/', function (req, res, next) {
 });
 router.get('/price', function (req, res, next) {
     res.render('price', {
-      title: '行情'
+      title: '行情',
+      pretty:true
     });
 });

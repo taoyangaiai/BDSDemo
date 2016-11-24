@@ -48,14 +48,14 @@ block content
 			p.userInfoError OK账户信息
 			table.table
 				tr#userInfo
-					td 可用
-					td.cny
-					td.btc
-					td.ltc
-					td 冻结
-					td.cny
-					td.btc
-					td.ltc
+					td.col-md-1 可用
+					td.col-md-2.free_cny
+					td.col-md-2.free_btc
+					td.col-md-1.ltc
+					td.col-md-1 冻结
+					td.col-md-2.cny
+					td.col-md-2.btc
+					td.col-md-1.ltc
 	hr
 	.container
 		.row
@@ -106,7 +106,7 @@ block content
 						td 买(5)
 						td
 						td
-					tr.danger
+					tr.info
 						td 合并深度
 						td(colspan='2')
 							div.btn-group(data-toggle="buttons")
@@ -136,9 +136,13 @@ block content
 						tr
 							td(colspan='3')
 								button#buyBtn.btn.btn-primary 买入
+								span.buyError.text-danger
+								span.buyMsg.text-success
 						tr
 							td(colspan='3')
 								button#sellBtn.btn.btn-primary 卖出
+								span.sellError.text-danger
+								span.sellMsg.text-success
 				.panel.panel-default
 					.panel-heading
 						h3.panel-title 未成交记录
