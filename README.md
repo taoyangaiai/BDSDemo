@@ -4,9 +4,11 @@
 Promise中的error传递  
 * 本来采用try catch来捕获  
 * 正确方式是  
-  ```js  
-  .catch(function(err){reject(err)})  
-  ```
+  ```  
+   .catch(function(err){  
+  		reject(err)})  
+	app.use  
+  ```  
 明日工作安排:  
 * 增加撤销功能  
 * 增加卖出功能  

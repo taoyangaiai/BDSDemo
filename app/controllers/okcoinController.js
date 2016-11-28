@@ -37,7 +37,7 @@ router.get('/queryBtc', function (req, res, next) {
 
 //查看深度
 router.get('/queryBtcDepth', function (req, res, next) {
-    var depth = req.query.depth
+    var depth = req.query.depth || 0.01
     okapi.queryDepth(depth)
          .then(function(data){
             res.json(data)
@@ -121,6 +121,16 @@ router.get('/cancel',function(req,res,next){
        }).catch(function(err){
         console.log(err)
        })
+})
+
+router.get('/autoProfitOn',function(req,res,next){
+    okapi.autoProfitOn()
+    res.end()
+})
+
+router.get('/autoProfitOff',function(req,res,next){
+    okapi.autoProfitOff()
+    res.end()
 })
 
 
