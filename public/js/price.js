@@ -15,11 +15,15 @@ $(function(){
 	
 	setInterval(function(){
 		query()
-	}, 2000);
+	}, 400);
 
 	setInterval(function(){
-		//fetchOrderHistory()
-	}, 1000);
+		queryDepth()
+	}, 2000);
+
+	// setInterval(function(){
+	// 	//fetchOrderHistory()
+	// }, 1000);
 
 	//买入
 	$('#buyBtn').click(function(){
@@ -32,7 +36,7 @@ $(function(){
 
 	//套利开启
 	$('#autoProfitOn').click(function(){
-		$.get('okcoin/autoProfitOn',function(data){
+		$.get('okcoin/autoProfitOn?taskNum=2',function(data){
 			//console.log(data)
 		})
 	})
@@ -43,7 +47,13 @@ $(function(){
 	})
 })
 
-//查询未成交记录
+//查询深度
+function queryDepth(){
+	$.get('okcoin/queryBtcDepth?'+'depth=1',function(_data){
+	//console.log(JSON.stringify(_data))
+	insertDepthData(_data)
+	})
+}
 
 //查询价格
 function query(){
@@ -63,10 +73,12 @@ function query(){
 	// 	var data = FormatData(_data)
 	// 	InsertData('btccBtc',data)
 	//})
-	$.get('okcoin/queryBtcDepth?'+'depth='+config.merge,function(_data){
-		//console.log(JSON.stringify(_data))
-		insertDepthData(_data)
-	})
+
+
+	// $.get('okcoin/queryBtcDepth?'+'depth=1',function(_data){
+	// 	//console.log(JSON.stringify(_data))
+	// 	insertDepthData(_data)
+	// })
 
 	// $.get('okcoin/getUserInfo',function(_data){
 	// 	if(_data.result){

@@ -124,11 +124,21 @@ router.get('/cancel',function(req,res,next){
 })
 
 router.get('/autoProfitOn',function(req,res,next){
+    // var taskNum = req.query.taskNum || 2
+    // for(var i = 0;i<taskNum;i++){
+    //   task.push(new OKCOIN())
+    // }
+    // task.forEach(function(item){
+    //   item.autoProfitOn()
+    // })
     okapi.autoProfitOn()
     res.end()
 })
 
 router.get('/autoProfitOff',function(req,res,next){
+    // task.forEach(function(item){
+    //   item.autoProfitOff()
+    // })
     okapi.autoProfitOff()
     res.end()
 })
