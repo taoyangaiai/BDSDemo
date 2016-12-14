@@ -2,6 +2,17 @@ extend layout
 block content
 	a(href='/') 首页
 	.container
+		.row
+			.col-md-5
+			.col-md-7
+				.panel.penel-default
+					.panel-heading
+						h3.panel-title 自动套利
+					.panel-body
+						btn#autoProfitOn.btn.btn-primary 开启
+						btn#autoProfitOff.btn.btn-primary 关闭
+	hr
+	.container
 		h1 #{title}
 		.row
 			table#btctbtable.table-hover.table-bordered.text-center
@@ -156,6 +167,9 @@ block content
 							td 平均成交价
 							td 尚未成交
 							td 操作
+
+	hr
+	
 
 
 

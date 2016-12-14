@@ -1,7 +1,8 @@
 var express     = require('express'),
   router        = express.Router(),
   mongoose      = require('mongoose'),
-  OKCOIN        = require('../../service/BTC/okBtcService')
+  OKCOIN        = require('../../service/BTC/okBtcService'),
+  OkWebSocket   = require('../../service/BTC/okWebSocket')
 
 module.exports = function (app) {
   app.use('/okcoin', router);
@@ -37,7 +38,7 @@ router.get('/queryBtc', function (req, res, next) {
 
 //查看深度
 router.get('/queryBtcDepth', function (req, res, next) {
-    var depth = req.query.depth
+    var depth = req.query.depth || 0.01
     okapi.queryDepth(depth)
          .then(function(data){
             res.json(data)
@@ -121,6 +122,26 @@ router.get('/cancel',function(req,res,next){
        }).catch(function(err){
         console.log(err)
        })
+})
+
+router.get('/autoProfitOn',function(req,res,next){
+    // var taskNum = req.query.taskNum || 2
+    // for(var i = 0;i<taskNum;i++){
+    //   task.push(new OKCOIN())
+    // }
+    // task.forEach(function(item){
+    //   item.autoProfitOn()
+    // })
+    okapi.autoProfitOn()
+    res.end()
+})
+
+router.get('/autoProfitOff',function(req,res,next){
+    // task.forEach(function(item){
+    //   item.autoProfitOff()
+    // })
+    okapi.autoProfitOff()
+    res.end()
 })
 
 

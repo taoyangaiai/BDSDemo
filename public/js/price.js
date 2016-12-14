@@ -15,11 +15,15 @@ $(function(){
 	
 	setInterval(function(){
 		query()
-	}, 2000);
+	}, 1000);
 
 	setInterval(function(){
-		fetchOrderHistory()
+		queryDepth()
 	}, 1000);
+
+	// setInterval(function(){
+	// 	//fetchOrderHistory()
+	// }, 1000);
 
 	//买入
 	$('#buyBtn').click(function(){
@@ -29,9 +33,27 @@ $(function(){
 	$('#sellBtn').click(function(){
 		Sell()
 	})
+
+	//套利开启
+	$('#autoProfitOn').click(function(){
+		$.get('okcoin/autoProfitOn?taskNum=2',function(data){
+			//console.log(data)
+		})
+	})
+	$('#autoProfitOff').click(function(){
+		$.get('okcoin/autoProfitOff',function(data){
+			//console.log(data)
+		})
+	})
 })
 
-//查询未成交记录
+//查询深度
+function queryDepth(){
+	$.get('okcoin/queryBtcDepth?'+'depth=0.1',function(_data){
+	//console.log(JSON.stringify(_data))
+	insertDepthData(_data)
+	})
+}
 
 //查询价格
 function query(){
@@ -39,36 +61,38 @@ function query(){
 		var data = FormatData(_data)
 		InsertData('okcoinBtc',data)
 	})
-	$.get('huobi/queryBtc',function(_data){
-		var data = FormatData(_data)
-		InsertData('huobiBtc',data)
-	})
-	$.get('chbtc/queryBtc',function(_data){
-		var data = FormatData(_data)
-		InsertData('chbtcBtc',data)
-	})
-	$.get('btcc/queryBtc',function(_data){
-		var data = FormatData(_data)
-		InsertData('btccBtc',data)
-	})
-	$.get('okcoin/queryBtcDepth?'+'depth='+config.merge,function(_data){
-		//console.log(JSON.stringify(_data))
-		insertDepthData(_data)
-	})
+	// $.get('huobi/queryBtc',function(_data){
+	// 	var data = FormatData(_data)
+	// 	InsertData('huobiBtc',data)
+	// })
+	// $.get('chbtc/queryBtc',function(_data){
+	// 	var data = FormatData(_data)
+	// 	InsertData('chbtcBtc',data)
+	// })
+	// $.get('btcc/queryBtc',function(_data){
+	// 	var data = FormatData(_data)
+	// 	InsertData('btccBtc',data)
+	//})
 
-	$.get('okcoin/getUserInfo',function(_data){
-		if(_data.result){
-			$('#userInfo').remove()
-			$('.userInfoError').text('获取用户信息出错:'+_data.message)
-		}else{
-			$('#userInfo td:eq(1)').text('CNY:'+_data.funds.free.cny)
-			$('#userInfo td:eq(2)').text('BTC:'+_data.funds.free.btc)
-			$('#userInfo td:eq(3)').text('LTC:'+_data.funds.free.ltc)
-			$('#userInfo td:eq(5)').text('CNY:'+_data.funds.freezed.cny)
-			$('#userInfo td:eq(6)').text('BTC:'+_data.funds.freezed.btc)
-			$('#userInfo td:eq(7)').text('LTC:'+_data.funds.freezed.ltc)
-		}
-	})
+
+	// $.get('okcoin/queryBtcDepth?'+'depth=1',function(_data){
+	// 	//console.log(JSON.stringify(_data))
+	// 	insertDepthData(_data)
+	// })
+
+	// $.get('okcoin/getUserInfo',function(_data){
+	// 	if(_data.result){
+	// 		$('#userInfo').remove()
+	// 		$('.userInfoError').text('获取用户信息出错:'+_data.message)
+	// 	}else{
+	// 		$('#userInfo td:eq(1)').text('CNY:'+_data.funds.free.cny)
+	// 		$('#userInfo td:eq(2)').text('BTC:'+_data.funds.free.btc)
+	// 		$('#userInfo td:eq(3)').text('LTC:'+_data.funds.free.ltc)
+	// 		$('#userInfo td:eq(5)').text('CNY:'+_data.funds.freezed.cny)
+	// 		$('#userInfo td:eq(6)').text('BTC:'+_data.funds.freezed.btc)
+	// 		$('#userInfo td:eq(7)').text('LTC:'+_data.funds.freezed.ltc)
+	// 	}
+	// })
 }
 
 
