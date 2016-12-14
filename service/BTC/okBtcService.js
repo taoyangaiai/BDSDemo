@@ -29,8 +29,8 @@ function OKBTC(){
 	this.failsNum = 0
 	this.kunsun = 0
 	this.profit = 0
-	this.timeout = 10000
-	this.flow_profit = 0.02
+	this.timeout = 15000
+	this.flow_profit = 0.01
 	this.fetchPrice()
 }
 
@@ -73,7 +73,8 @@ OKBTC.prototype.queryPrice = function(){
 		request({method:'GET',url : url, json :true}).then(function(res){
 			var _data = res.body
 			if(_data){
-				 resolve(_data)
+				console.log(_data.ticker.last)
+				resolve(_data)
 			}else{
 				throw new Error('get okcoin btc price fails')
 			}
@@ -247,7 +248,7 @@ function getSupportPrice(ok){
 	var sell_list = ok.asks
 	var buy_list  = ok.bids
 	var sell_total = 0
-	var sell_support =0
+	var sell_support = 8000
 	for(var i =sell_list.length-1;i>0;i--){
 		sell_total += sell_list[i][1]
 		if(sell_total>=50){
@@ -256,7 +257,7 @@ function getSupportPrice(ok){
 		}
 	}
 	var buy_total = 0
-	var buy_support =0
+	var buy_support = 1000
 	for(var i =sell_list.length-1;i>0;i--){
 		buy_total += buy_list[i][1]
 		if(buy_total>=50){
@@ -270,15 +271,15 @@ function getSupportPrice(ok){
 
 function auto(ok){
 	if(ok.goNext){
-		var price_one = ok.ticker.last
-		Promise.delay(600).then(function(){
-			var price_two = ok.ticker.last
+		//var price_one = ok.bids[0][0]
+		Promise.delay(1).then(function(){
+			var price_two = ok.bids[0][0]
 			return Promise.resolve(price_two)
 			//var discus = Math.abs(price_two-price_one)
 			//console.log('盘口差价='+discus)
 			
 		}).delay(600).then(function(price_two){
-			var price_three = ok.ticker.last
+			var price_three = ok.bids[0][0]
 			// console.log('one='+price_one)
 			// console.log('two='+price_two)
 			// console.log('three='+price_three)
@@ -287,7 +288,8 @@ function auto(ok){
 			      type:'buy',
 			      amount:ok.amount
 			    }
-			if(price_one < price_two && price_three>price_two){
+			//if(price_one < price_two && price_three>price_two){
+			if(price_three>price_two){
 				ok.totalNum+=1
 				showLog(ok)
 				getSupportPrice(ok)
@@ -297,7 +299,7 @@ function auto(ok){
 				options.trade_type = 'up'
 				return goUp(ok,options)
 				//return auto(ok)
-			}else if(price_one > price_two && price_two > price_three){
+			}else if(price_two > price_three){
 				ok.totalNum+=1
 				showLog(ok)
 				console.log('跌了')
@@ -356,15 +358,16 @@ function watchGoUpBuy(ok,opt){
 					  		  .then(function(data_three){
 					  		  	var deal_amount = data_three.deal_amount
 					  		  	opt.amount -= deal_amount
+					  		  	if(opt.amount < 0.01){
+					  		  		return goUpSell(ok,opt)
+					  		  	}
 						  		console.log('撤单成功,重新下单')
 						  		if(type === 'up'){
 							    	opt.price = ok.ticker.sell
 						  		}else{
 						  			opt.price = ok.ticker.buy
 						  		}
-							    setTimeout(function(){
-							  		goUp(ok,opt)	
-							    },500)
+						  		goUp(ok,opt)	
 					  		  })
 					  	}else{
 					  		goUpSell(ok,opt)
@@ -378,6 +381,7 @@ function watchGoUpBuy(ok,opt){
 
 function goUpSell(ok,opt){
 	var type = opt.trade_type
+    opt.amount = ok.amount
 	if(type === 'up'){
 	    opt.type = 'sell'
 	    opt.price = +opt.price+ok.flow_profit
@@ -433,6 +437,9 @@ function goUpSellWatch(ok,opt){
 					  		  	opt.amount = ok.amount-deal_amount
 						  		opt.price = +ok.ticker.buy-5
 						  		opt.type = 'sell'
+						  		if(opt.amount < 0.01){
+						  			return auto(ok)
+						  		}
 						  		setTimeout(function(){
 							  		ok.sell(opt)
 							  		  .then(function(sell_data){
@@ -567,6 +574,9 @@ function goDownBuyWatch(ok,opt){
 					  		  .then(function(data_one){
 					  		  	var deal_amount = data_one.deal_amount
 					  		  	opt.amount = ok.amount-deal_amount
+					  		  	if(opt.amount < 0.01){
+					  		  		return auto(ok)
+					  		  	}
 						  		opt.price = +ok.ticker.sell+5
 						  		opt.type = 'buy'
 						  		setTimeout(function(){

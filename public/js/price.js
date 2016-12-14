@@ -15,11 +15,11 @@ $(function(){
 	
 	setInterval(function(){
 		query()
-	}, 400);
+	}, 1000);
 
 	setInterval(function(){
 		queryDepth()
-	}, 2000);
+	}, 1000);
 
 	// setInterval(function(){
 	// 	//fetchOrderHistory()
@@ -49,7 +49,7 @@ $(function(){
 
 //查询深度
 function queryDepth(){
-	$.get('okcoin/queryBtcDepth?'+'depth=1',function(_data){
+	$.get('okcoin/queryBtcDepth?'+'depth=0.1',function(_data){
 	//console.log(JSON.stringify(_data))
 	insertDepthData(_data)
 	})

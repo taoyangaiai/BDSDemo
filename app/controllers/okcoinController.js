@@ -1,7 +1,8 @@
 var express     = require('express'),
   router        = express.Router(),
   mongoose      = require('mongoose'),
-  OKCOIN        = require('../../service/BTC/okBtcService')
+  OKCOIN        = require('../../service/BTC/okBtcService'),
+  OkWebSocket   = require('../../service/BTC/okWebSocket')
 
 module.exports = function (app) {
   app.use('/okcoin', router);
